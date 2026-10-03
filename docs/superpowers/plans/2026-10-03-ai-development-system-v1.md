@@ -378,7 +378,7 @@ Run:
 
 ~~~
 git diff --check
-rg -n "TODO|TBD|to be filled|implement later|npm install <|/path/to/|example\\.com" AGENTS.md CLAUDE.md README.md .agents docs prompts templates scripts || true
+rg -n "TODO|TBD|to be filled|implement later|npm install <|/path/to/|example\\.com" AGENTS.md CLAUDE.md README.md .agents docs/AI_DEVELOPMENT_SYSTEM.md docs/14_TOOLING_SECURITY.md docs/decisions prompts templates scripts || true
 ~~~
 
 Expected: \`git diff --check\` exits 0; the scan returns no unresolved placeholder or fake path/config content.
