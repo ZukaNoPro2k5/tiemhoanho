@@ -2,9 +2,9 @@
 
 ## Current architecture
 
-The repository is currently a documentation and development-foundation repository. It has no application runtime, package manifest, source tree, test runner, CI workflow or repository-local MCP configuration.
+The repository now includes the Milestone 0 application foundation: Vite + React + strict TypeScript, centralized CSS/Tailwind tokens, a static mobile-first shop shell, unit/browser tests, basic PWA and CI. No gameplay, persistence, backend or repository-local MCP configuration exists.
 
-The product source of truth is the existing set of docs/00–13 documents. The current technical direction is client-first React + TypeScript with DOM/SVG/CSS bouquet composition, but the application stack remains unconfirmed until Milestone 0 inspects the actual repository and records the choice.
+The product source of truth remains docs/00–13. ADR-002 records the foundation stack and dependency deferrals. DOM/SVG/CSS remains the rendering direction; the current illustration is decorative and contains no bouquet algorithm.
 
 ## Gap analysis
 
@@ -29,7 +29,7 @@ The product source of truth is the existing set of docs/00–13 documents. The c
 - DOM/SVG-first decision; no PixiJS by default.
 - Client-first, local versioned save direction.
 - Explainable scoring and data-driven content principles.
-- No gameplay implementation or dependency bootstrap in this foundation change.
+- No gameplay implementation in Milestone 0. Runtime dependency bootstrap is now complete.
 
 ## Agent roles
 
@@ -117,7 +117,7 @@ It refuses existing paths and existing local branches, validates all pairs befor
 4. Visual/mobile QA at 390x844, plus affected 360px/430x932 widths.
 5. Performance profile for bouquet drag, assets, bundle, long tasks and rendering.
 
-The current repository has no runtime commands. Current foundation verification is shell syntax, required-section/path scans, Markdown whitespace and isolated worktree behavior. Lint, typecheck, unit, E2E, browser and runtime performance checks are NOT RUN because no application exists.
+Milestone 0 verification commands are `npm ci`, `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm test`, `npm run build` and `npm run test:e2e`. Playwright uses production preview, checks the mobile viewport matrix and PWA/offline shell, and attaches screenshots. Actual command results belong in the task handoff; physical-device performance and gameplay QA remain future work.
 
 ## Standard handoff
 
@@ -161,8 +161,7 @@ Least privilege is the default. No production secrets, unrestricted destructive 
 
 ## What is intentionally not added
 
-- No React/Vite package bootstrap.
 - No PixiJS, Motion, Zustand, Storybook, Supabase or hosting integration.
-- No gameplay feature, UI screen or generated asset.
+- No gameplay feature, persistent player state or gameplay asset. The static shell and provisional install icons are foundation assets.
 - No mandatory account/backend/social system.
 - No automatic PR, merge, deploy or production operation.

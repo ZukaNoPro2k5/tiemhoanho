@@ -2,7 +2,44 @@
 
 TiemHoaWeb is a mobile-first cozy flower-shop web game where the player makes beautiful bouquets, serves small customer stories and gradually personalizes a flower shop.
 
-This repository is the active project workspace. It currently contains the product specification and multi-agent development foundation; application code and the runtime stack are intentionally not bootstrapped yet.
+This repository contains the product specification, AI development system and Milestone 0 application foundation. The runtime is Vite + React + strict TypeScript. The shop shell is deliberately non-interactive; gameplay begins in later milestones.
+
+## Run locally
+
+Use Node **22.13+ on the 22 line**, or Node **24.x**, and npm. Install from the lockfile:
+
+```bash
+npm ci
+npm run dev
+```
+
+Vite prints the local address (normally `http://localhost:5173`). To view the production build, including the PWA:
+
+```bash
+npm run build
+npm run preview
+```
+
+### Quality commands
+
+```bash
+npm run format:check
+npm run lint
+npm run typecheck
+npm test
+npx playwright install chromium
+npm run test:e2e
+```
+
+`npm run format` formats the application/configuration and README; existing product and agent docs are intentionally excluded to avoid unrelated rewrites. `npm run test:watch` runs unit tests interactively. Linux environments without browser system libraries can use `npx playwright install --with-deps chromium`.
+
+Playwright runs against an isolated production preview on port 4173; free that port before running tests. Its default viewport is 390x844; the smoke suite also covers 360x800, 375x667, 430x932 and centered desktop. Run `npm run test:e2e -- --grep 360x800` for the narrow layout. Screenshots are attached to `playwright-report/`; inspect them with `npx playwright show-report`.
+
+### PWA limits
+
+The worker runs in production over HTTPS or localhost, and precaches only the static shell. Dev mode deliberately has no worker. After a successful online load, the shell can reload offline. Installation UI depends on browser support; iOS users install through Share → Add to Home Screen. App icons are provisional botanical artwork. Regenerate the committed PNG icons from `public/favicon.svg` with `npm run icons:generate` after installing Chromium. There is no gameplay save yet.
+
+The current build targets root hosting (`/`). Configure Vite base and manifest/worker scope together before hosting under a subpath. Automatic worker updates are acceptable for this stateless foundation; review prompting before adding gameplay drafts or saves.
 
 ## North star
 
@@ -26,39 +63,40 @@ UI/UX & visual delight > bouquet interaction > customer emotion > progression > 
 - Product, gameplay, UX, design, architecture, data, content, QA and collaboration docs exist under docs/.
 - Shared agent rules exist in AGENTS.md, CLAUDE.md, .agents/rules/ and .claude/rules/.
 - Project skills and workflow playbooks live under .agents/skills/ and .agents/workflows/.
-- There is currently no package.json, src/, test runner, CI workflow or repository-local MCP configuration.
-- The documented application direction is React + TypeScript with DOM/SVG/CSS bouquet composition; validate the actual stack when Milestone 0 begins.
+- Milestone 0 adds the runtime, CSS/Tailwind theme tokens, ESLint/Prettier, Vitest/Testing Library, Playwright, basic PWA and GitHub Actions CI.
+- No gameplay, player save, backend or repository-local MCP configuration is implemented.
+- Foundation choices are recorded in [ADR-002](docs/decisions/002-m0-application-foundation.md).
 
 ## Product scope
 
 MVP validates the 60–120 second loop:
 
-~~~
+```
 customer request -> bouquet design -> wrap/ribbon/card -> delivery
 -> explainable reaction -> cash/reputation -> diary/share
-~~~
+```
 
 MVP includes local versioned save and installable PWA basics. It excludes multiplayer, guilds, gacha, energy/lives, large farming, employee simulation, city maps, mandatory accounts and payments.
 
 ## Task routing
 
-| Level | Use for | Default path |
-|---|---|---|
-| SMALL | Copy, icon, isolated CSS/config | Implementer self-review; targeted checks; browser QA only for visible behavior |
-| MEDIUM | Component, modal, customer card, inventory slice, animation | Codex logic/tests or Antigravity UI; affected browser QA |
-| LARGE | Bouquet crafting, progression, save, economy, decorating | Claude architecture → Codex implementation/review → Antigravity browser/mobile QA |
+| Level  | Use for                                                     | Default path                                                                      |
+| ------ | ----------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| SMALL  | Copy, icon, isolated CSS/config                             | Implementer self-review; targeted checks; browser QA only for visible behavior    |
+| MEDIUM | Component, modal, customer card, inventory slice, animation | Codex logic/tests or Antigravity UI; affected browser QA                          |
+| LARGE  | Bouquet crafting, progression, save, economy, decorating    | Claude architecture → Codex implementation/review → Antigravity browser/mobile QA |
 
 Start with .agents/workflows/implement-feature.md; use review-feature.md, visual-qa.md, mobile-qa.md, fix-ui-issue.md or regression-check.md as the task requires.
 
 ## Documentation map
 
-| Task | Read |
-|---|---|
-| Product/feature | docs/01_PRD_MVP.md, docs/02_GAME_DESIGN.md |
-| UI/UX | docs/03_UX_UI_SPEC.md, docs/04_DESIGN_SYSTEM.md |
-| Architecture/state/content | docs/05_TECH_ARCHITECTURE.md, docs/06_DATA_MODEL.md, docs/07_CONTENT_SCHEMA.md |
-| Planning/QA | docs/08_IMPLEMENTATION_PLAN.md, docs/09_TASK_BACKLOG.md, docs/10_TESTING_QA.md |
-| Agents/tools | docs/13_MULTI_AGENT_WORKFLOW.md, docs/14_TOOLING_SECURITY.md, docs/AI_DEVELOPMENT_SYSTEM.md |
+| Task                       | Read                                                                                        |
+| -------------------------- | ------------------------------------------------------------------------------------------- |
+| Product/feature            | docs/01_PRD_MVP.md, docs/02_GAME_DESIGN.md                                                  |
+| UI/UX                      | docs/03_UX_UI_SPEC.md, docs/04_DESIGN_SYSTEM.md                                             |
+| Architecture/state/content | docs/05_TECH_ARCHITECTURE.md, docs/06_DATA_MODEL.md, docs/07_CONTENT_SCHEMA.md              |
+| Planning/QA                | docs/08_IMPLEMENTATION_PLAN.md, docs/09_TASK_BACKLOG.md, docs/10_TESTING_QA.md              |
+| Agents/tools               | docs/13_MULTI_AGENT_WORKFLOW.md, docs/14_TOOLING_SECURITY.md, docs/AI_DEVELOPMENT_SYSTEM.md |
 
 ## Project skills
 
@@ -79,4 +117,4 @@ pixijs-scene is deliberately not present because the current decision is DOM/SVG
 
 ## Verification
 
-The repository has no runtime commands yet. Do not invent lint/typecheck/test results. For the current documentation foundation, use git diff --check, shell syntax checks, required-section/path checks and the worktree helper's isolated tests. Once application code exists, add the documented lint, typecheck, unit/component, E2E, mobile and performance checks.
+Run the quality commands above and `git diff --check`. CI installs from the lockfile, checks format/lint/types/unit/build and runs Chromium smoke tests. Foundation browser tests verify shell loading, viewport overflow, runtime/network errors, PWA metadata/icons and offline reload. Review actual screenshots before claiming mobile quality; automated checks do not replace physical-device QA.

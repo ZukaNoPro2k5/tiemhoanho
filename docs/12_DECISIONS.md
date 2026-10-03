@@ -32,6 +32,16 @@ Record meaningful changes here so different AI agents do not repeatedly reopen s
 
 **Reason:** Players need understandable feedback and reliable offline behavior.
 
+## D-006 — Milestone 0 application foundation
+
+**Date:** 2026-10-03
+
+**Status:** accepted
+
+**Decision:** Bootstrap Vite + React + strict TypeScript, CSS/Tailwind tokens, tests, basic PWA and CI. Defer routing, Motion, Zustand and player persistence until their first real consumers. Milestone 0 has a static shop shell only.
+
+**Reason:** Follow the explicitly assigned foundation scope and minimize unused dependencies. Details and verification are in [ADR-002](decisions/002-m0-application-foundation.md).
+
 ## New decision template
 
 ### D-XXX — Title

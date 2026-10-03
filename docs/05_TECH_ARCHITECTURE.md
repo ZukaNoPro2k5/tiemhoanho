@@ -20,6 +20,10 @@ For a new project:
 
 Use the current stable versions at project initialization. Lock versions in the package manager lockfile.
 
+### Milestone 0 implementation
+
+The actual foundation uses Vite/React/strict TypeScript, CSS variables integrated with Tailwind, Vitest/Testing Library, Playwright and vite-plugin-pwa. Motion, Zustand and a router are deferred until real consumers exist. Only `app`, `components`, `content`, `styles` and test setup exist under `src`; the structure below describes future gameplay work, not directories to scaffold now. See [ADR-002](decisions/002-m0-application-foundation.md).
+
 ## 3. Proposed source structure
 
 ```text

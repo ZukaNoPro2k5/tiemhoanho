@@ -4,6 +4,8 @@ Build vertical slices. Do not implement all infrastructure before the first play
 
 ## Milestone 0 — Repo foundation
 
+Implemented foundation: single shop shell, centralized CSS/Tailwind tokens, strict TypeScript, unit/browser tests, basic PWA and CI. Routing/state libraries remain deferred until actual gameplay screens exist; see ADR-002.
+
 Deliverables:
 
 - Vite + React + TypeScript project.

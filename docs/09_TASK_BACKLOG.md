@@ -4,6 +4,8 @@ Use IDs in commits/PRs when practical.
 
 ## EPIC A — Foundation
 
+A-01–A-06 implemented in Milestone 0. A-04 uses a single-screen shell; routing begins with the first additional real screen (ADR-002). Verification evidence is recorded in `docs/m0-foundation-verification.md`.
+
 - A-01 Initialize Vite React TypeScript strict project.
 - A-02 Add lint/format/typecheck/test scripts.
 - A-03 Add Tailwind and design tokens.
