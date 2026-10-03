@@ -2,11 +2,21 @@
 @import './tokens.css';
 
 @theme inline {
-  --color-cream: var(--cream-50);
+  --color-*: initial;
+  --color-cream-50: var(--cream-50);
+  --color-cream-100: var(--cream-100);
+  --color-ink-600: var(--ink-600);
+  --color-ink-900: var(--ink-900);
+  --color-rose-300: var(--rose-300);
+  --color-rose-500: var(--rose-500);
+  --color-peach-300: var(--peach-300);
+  --color-sage-300: var(--sage-300);
+  --color-sage-500: var(--sage-500);
+  --color-sage-700: var(--sage-700);
+  --color-butter-300: var(--butter-300);
   --color-paper: var(--paper);
-  --color-ink: var(--ink-900);
-  --color-rose: var(--rose-300);
-  --color-sage: var(--sage-500);
+  --color-danger: var(--danger);
+  --color-border-warm: var(--border-warm);
   --font-sans: var(--font-body);
   --font-serif: var(--font-display);
 }

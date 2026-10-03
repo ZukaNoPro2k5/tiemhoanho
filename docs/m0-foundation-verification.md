@@ -2,7 +2,7 @@
 
 ## Scope
 
-A-01–A-06 completed on `feature/m0-foundation` in `/home/tts/Downloads/tiemhoa-codex`, based on `main` at `7799319`. Codex is the sole implementer. No gameplay, player save, backend, merge, push or deployment was performed.
+A-01–A-06 completed on `feature/m0-foundation` in a dedicated application worktree, based on `main` at `7799319`. Codex is the sole implementer. No gameplay, player save, backend, merge, push or deployment was performed.
 
 ## Executed checks
 
@@ -47,13 +47,25 @@ Vite measured the main JS at 225.98 kB (70.86 kB gzip) and CSS at 11.38 kB (3.38
 
 ## Self-review and limitations
 
-Reviewed every new source/configuration/test file, the lockfile's root metadata and all modified-document diffs against the assigned milestone. Source/content/styles remain separate, strict types pass, dependencies have immediate consumers, no excluded feature or unrelated agent/worktree changes were introduced. The only gameplay-doc correction is canonical `warm` replacing noncanonical `affection` in the example.
+Reviewed every new source/configuration/test file, the lockfile's root metadata and all modified-document diffs against the assigned milestone. Source/content/styles remain separate, strict types pass, dependencies have immediate consumers, no excluded feature or unrelated agent/worktree changes were introduced. Milestone 0.1 aligns the Pink Tulip example and seed-content description to the canonical tags `gentle, romantic`.
 
 Routing, Motion, Zustand, gameplay persistence and empty feature directories were deliberately deferred (ADR-002). The author performed this review; independent Claude and Antigravity reviews have not been started, as instructed.
 
 NOT RUN: GitHub-hosted CI (workflow added but no push), Safari/WebKit/Firefox, physical-device notches/browser chrome, browser installation UI and mid-range device performance. The automated Chromium checks validate manifest/offline behavior but do not prove installation on every browser.
 
 The shell targets root hosting over HTTPS or localhost. Subpath hosting requires a coordinated base/manifest/worker-scope change. Provisional art/system fonts may be refined later. Automatic PWA update activation must be reconsidered before persistent or in-flight gameplay state exists.
+
+## Milestone 0.1 cleanup verification — 2026-10-03
+
+Scope: canonical Pink Tulip tags, Tailwind color boundary, localhost defaults with explicit LAN development, and portable documentation. No Milestone 1 work or palette values changed.
+
+- PASS: targeted `npx prettier --write`, `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm test` (2 component tests), `npm run build`, and `git diff --check`.
+- PASS: `npm run test:e2e` (7 Chromium smoke checks); inspected generated 360x800 and 390x844 screenshots for wrapping, clipping and overflow.
+- PASS: an inline Node probe using the installed `@tailwindcss/node` compiler and actual `src/styles/global.css` imports verifies all 14 existing color tokens map by exact name and generate 70 background/text/border/fill/stroke utilities. Default `bg-slate-800`, `text-cyan-400`, `bg-rose-400`, `bg-black`, `text-white` and the four former broad aliases do not compile. Layout, spacing and responsive utilities still compile. The default slate/cyan utilities compiled before the patch.
+- PASS: launched Vite with each package script's arguments on isolated ports and checked listening sockets with `ss -H -ltn`: `dev` and `preview` listen on loopback; `dev:lan` listens on `0.0.0.0`.
+- PASS: repository search for the two noncanonical-tag terms finds only the historical Milestone 0 plan at `docs/superpowers/plans/2026-10-03-m0-foundation.md:35`, describing the earlier replacement with `warm`. It is not a current content tag; both authoritative Pink Tulip descriptions now use `gentle, romantic`. No machine-specific absolute path remains in this document.
+
+NOT RUN: physical-phone/LAN browsing, independent Antigravity QA, WebKit/Firefox and hosted CI. No new gameplay or loading/error states exist in this patch. Clearing the color namespace prevents default palette utilities; arbitrary CSS values remain technically possible and are prohibited by the ADR-002 styling convention.
 
 ## Follow-up
 

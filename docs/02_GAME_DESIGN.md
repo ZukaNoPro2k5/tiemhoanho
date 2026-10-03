@@ -72,7 +72,7 @@ Example:
   nameVi: 'Tulip hồng',
   basePrice: 28000,
   colors: ['pink'],
-  tags: ['gentle', 'warm', 'romantic'],
+  tags: ['gentle', 'romantic'],
   role: 'focal'
 }
 ```

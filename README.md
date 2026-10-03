@@ -13,6 +13,8 @@ npm ci
 npm run dev
 ```
 
+Development and preview bind to localhost only. For physical-phone testing on the same LAN, run `npm run dev:lan` and open the printed network address on the phone; this explicitly binds to all network interfaces. Dev mode has no service worker.
+
 Vite prints the local address (normally `http://localhost:5173`). To view the production build, including the PWA:
 
 ```bash

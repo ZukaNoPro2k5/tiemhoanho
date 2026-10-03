@@ -12,6 +12,8 @@ The user explicitly assigned A-01–A-06 and restricted the implementation to an
 
 Use Vite, React and strict TypeScript with npm and a committed lockfile. Require Node 22.13+ on the Node 22 line (or Node 24.x). Centralize CSS design tokens; use Tailwind's Vite integration without a component library. Keep Vietnamese copy in content definitions and the storefront illustration in a static SVG component.
 
+New components may use Tailwind for layout, spacing and responsive composition. Visual colors, radii, shadows and motion must use approved tokens from `src/styles/tokens.css`. Clear Tailwind's default color namespace and map each project color token by its exact name (`--rose-300` → `--color-rose-300` → `bg-rose-300`). Do not use arbitrary Tailwind palette colors or raw color values to bypass tokens.
+
 Use a single screen with no routing dependency until another real screen exists. Defer Motion, Zustand and persistence until their first consumers exist. Use local system fonts that support Vietnamese rather than blocking rendering on a font service.
 
 Configure Vitest/Testing Library, Playwright against production preview, and CI for formatting, lint, typecheck, unit tests and build. Browser smoke checks also run in CI after local verification. Use vite-plugin-pwa's generated worker with only static precaching. Automatic activation is appropriate for this stateless shell; revisit update prompting before gameplay saves or in-flight drafts exist.

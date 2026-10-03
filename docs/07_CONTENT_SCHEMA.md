@@ -10,7 +10,7 @@ Seed with 12 definitions:
 
 1. Hồng đỏ — romantic, warm — red — focal.
 2. Hồng hồng — gentle, romantic — pink — focal.
-3. Tulip hồng — gentle, affectionate/romantic — pink — focal.
+3. Tulip hồng — gentle, romantic — pink — focal.
 4. Tulip vàng — cheerful, warm — yellow — focal.
 5. Hướng dương — cheerful, supportive, warm — yellow — focal.
 6. Cúc họa mi — fresh, gentle, cheerful — white/yellow — secondary.
