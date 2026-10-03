@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.vite/
+
+# Local environment and tooling
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+
+# Test artifacts
+coverage/
+playwright-report/
+test-results/
