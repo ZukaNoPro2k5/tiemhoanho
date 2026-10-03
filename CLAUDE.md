@@ -1,25 +1,30 @@
 # Claude Code — TiemHoaWeb
 
-Follow `AGENTS.md` as the project-wide engineering contract.
+Follow AGENTS.md as the shared contract. Use docs/AI_DEVELOPMENT_SYSTEM.md and docs/13_MULTI_AGENT_WORKFLOW.md for the operating model.
 
-Before a non-trivial implementation task:
+## Before implementation
 
-1. Read `docs/01_PRD_MVP.md`.
-2. Read the relevant UX/architecture/data document.
-3. Inspect existing implementation before proposing changes.
-4. Make a concise implementation plan.
-5. Implement the smallest coherent slice.
-6. Verify with tests and mobile visual checks.
+1. Inspect the actual repository and existing patterns; do not assume the recommended stack is installed.
+2. Read docs/01_PRD_MVP.md and the domain/UI documents relevant to the task.
+3. Classify the task as SMALL, MEDIUM or LARGE.
+4. Select the relevant .agents/skills/ and .agents/workflows/ entries.
+5. For LARGE work, write or read a feature spec and implementation plan before editing.
 
-Never optimize for feature count at the expense of the core bouquet experience.
+## Architecture reasoning
 
-Useful references:
+- Preserve the documented MVP and the DOM/SVG-first renderer decision unless measured evidence and an accepted ADR change it.
+- Keep scoring, pricing, placement, progression and save migrations deterministic and testable without React.
+- Keep content data and balance values central; do not scatter user-facing copy or economy numbers through components.
+- Prefer the smallest reversible design. Do not introduce a repository pattern, event bus, dependency-injection framework, backend or game engine without a current requirement.
+- When docs and code conflict, preserve working behavior while reporting the conflict and proposing a decision; do not silently rewrite the product.
 
-- UI work: `docs/03_UX_UI_SPEC.md`, `docs/04_DESIGN_SYSTEM.md`
-- Game rules: `docs/02_GAME_DESIGN.md`
-- Architecture: `docs/05_TECH_ARCHITECTURE.md`
-- Data: `docs/06_DATA_MODEL.md`, `docs/07_CONTENT_SCHEMA.md`
-- Roadmap/tasks: `docs/08_IMPLEMENTATION_PLAN.md`, `docs/09_TASK_BACKLOG.md`
-- QA: `docs/10_TESTING_QA.md`
+## Collaboration
 
-When a task is ambiguous, preserve documented behavior and choose the simplest reversible implementation. Record meaningful decisions in `docs/12_DECISIONS.md`.
+- Claude owns feature decomposition, domain modelling and architecture guardrails.
+- Hand logic/persistence contracts to Codex for implementation and review.
+- Hand UI/mobile behavior to Antigravity for browser and visual QA.
+- Keep one owner per branch/worktree and use the standard handoff format.
+
+## Verification
+
+Do not claim tested from inspection. Run the relevant checks, report exact results, and mark unavailable app checks NOT RUN. Before finalizing, review scope, mobile behavior, states, performance implications and documentation impact.

@@ -1,248 +1,180 @@
 # Multi-Agent Workflow — Claude + Codex + Antigravity
 
-## 1. Goal
+This document defines ownership and sequencing. Detailed procedures live in .agents/workflows/; domain constraints live in .agents/skills/.
 
-Use multiple coding agents without creating three conflicting interpretations of the product.
+## 1. Shared rules
 
-Rules:
-
-- `docs/` is the product/architecture source of truth.
-- `AGENTS.md` is the shared execution contract.
+- docs/ is product and architecture truth; AGENTS.md is the shared execution contract.
 - One task has one implementation owner at a time.
-- Parallel agents must work on non-overlapping task/file scopes or separate worktrees.
-- Every handoff includes verification results, changed files, unresolved risks and next task IDs.
+- Parallel work uses separate branches/worktrees and non-overlapping file scopes.
+- Agents read existing code and patterns before editing.
+- Agents do not silently change product behavior, introduce dependencies or claim unrun verification.
+- Every handoff includes changed files, evidence, risks and next safe tasks.
 
-## 2. Suggested responsibilities
+## 2. Default roles
 
-These are operating roles, not hard capability limits.
+### Claude Code — Feature Architect + Gameplay Engineer
 
-### Claude Code — planner / spec guardian / reviewer
+Owns feature decomposition, product interpretation, domain modelling, large feature implementation and architecture decisions. Claude prepares specs/plans and guards gameplay invariants; it is not the default owner for every UI polish or QA pass.
 
-Best use in this project:
+### Codex — Implementation + Refactor + Test + Reviewer
 
-- read the complete product context;
-- refine ambiguous feature behavior;
-- create implementation plans;
-- review architecture and UX against docs;
-- review a completed milestone for scope creep;
-- write/update ADRs when a meaningful decision changes.
+Owns focused implementation, pure domain logic, persistence/migrations, unit/integration tests, bug fixing, typing, lint and review. Codex is the second pair of eyes after important feature work.
 
-Do not use Claude merely to rewrite code another agent just wrote unless there is a concrete review finding.
+### Antigravity — Visual Engineer + Browser QA Agent
 
-### Codex — implementation / domain / test owner
+Owns browser interaction, responsive UI, mobile viewport checks, screenshots, UX findings and visual polish. Antigravity verifies real flows, not only page load.
 
-Best use in this project:
+## 3. Workflow levels
 
-- repository bootstrap;
-- pure TypeScript domain logic;
-- store/persistence/migrations;
-- scoring/economy/order generation;
-- test suites;
-- focused refactors and performance fixes.
+| Level | Examples | Primary owner | Review | Tests | Browser QA | Documentation |
+|---|---|---|---|---|---|---|
+| SMALL | Typo, icon, isolated CSS/config/text | Agent closest to the file | Self-review; Codex if behavior changes | Targeted lint/typecheck/focused test | Only for visible behavior/layout changes | Only when a contract changes |
+| MEDIUM | Component, modal, customer card, inventory slice, animation | Codex for logic; Antigravity for UI | Other relevant agent | Unit/component plus affected integration | Required for changed mobile interaction | Update feature/task docs when behavior/contracts change |
+| LARGE | Bouquet crafting, customer state, progression, save, economy, decorating | Claude architecture; Codex implementation; Antigravity UI/QA | Codex technical + Antigravity browser + Claude scope review | Domain, integration, component and critical E2E | 390x844 and 360px; 430x932 when responsive | Feature spec, plan and ADR/decision when architecture changes |
 
-### Antigravity — interactive UI / browser QA owner
+Select the level before editing. Reclassify if the scope grows.
 
-Best use in this project:
+## 4. Default pipeline
 
-- bouquet drag/touch UI;
-- responsive/mobile visual iteration;
-- onboarding/reaction/diary screen implementation;
-- browser-based regression checks;
-- screenshot/visual artifact review;
-- end-to-end interaction verification.
+~~~
+idea
+  -> product spec when behavior is non-trivial
+  -> technical plan for LARGE work
+  -> Claude architecture/domain implementation
+  -> Codex implementation review and automated tests
+  -> Antigravity browser/mobile QA for UI or flow changes
+  -> performance check when interaction/assets/rendering changed
+  -> targeted fixes
+  -> PR review
+  -> verified merge
+~~~
 
-## 3. Branch/worktree policy
+Use the smallest pipeline that proves the task. Start with .agents/workflows/implement-feature.md and add the review, visual, mobile or regression playbook required by the task level.
 
-Recommended naming:
+## 5. Branch and worktree policy
 
-```text
-main
-ai/codex-A-foundation
-ai/codex-C-scoring
-ai/antigravity-B-bouquet-ui
-ai/antigravity-H-polish
-ai/claude-review-m1
-```
+Use purpose-based names:
 
-Do not let two agents edit the same feature branch concurrently.
+~~~
+feature/<task-slug>
+fix/<task-slug>
+refactor/<task-slug>
+test/<task-slug>
+visual/<task-slug>
+ux/<task-slug>
+chore/<task-slug>
+~~~
 
-Before starting work:
+Recommended local layout:
 
-```bash
-git status
+~~~
+../tiemhoa-claude
+../tiemhoa-codex
+../tiemhoa-antigravity
+~~~
+
+Use scripts/setup-worktrees.sh for explicit branch/path pairs or standard git worktree commands. The helper refuses existing paths and existing local branches; it never deletes or overwrites. Keep main free of force pushes and unverified merges.
+
+Before work:
+
+~~~
+git status --short --branch
 git pull --ff-only
-```
+~~~
 
-Before handoff:
+Run git pull --ff-only only when the task is intentionally updating from the shared remote; do not use it to hide local changes.
 
-```bash
-npm run lint
-npm run typecheck
-npm test
-# plus relevant E2E command
-```
-
-Adapt commands to the actual package manager/scripts once the repo exists.
-
-## 4. Milestone assignment
+## 6. Milestone ownership
 
 ### Milestone 0 — Foundation
 
-**Owner:** Codex
-
-Tasks: A-01..A-06.
-
-**Reviewer:** Claude.
-
-**Visual smoke check:** Antigravity at 390x844.
-
-Handoff requirement:
-
-- exact command results;
-- package choices;
-- deviations from recommended architecture;
-- no gameplay feature work.
+- Owner: Codex.
+- Scope: inspect/initialize the actual app stack, scripts, design tokens, app shell, PWA scaffold and CI only when the repository is ready for application code.
+- Reviewer: Claude.
+- Visual smoke check: Antigravity at 390x844.
+- Constraint: no gameplay feature work.
 
 ### Milestone 1 — Bouquet prototype
 
-Split into two sequential scopes.
-
-**Scope 1A — domain/geometry**
-
-Owner: Codex.
-
-- B-01 content types.
-- B-03 deterministic assisted placement.
-- B-08 z-order strategy.
-- B-09 validation.
-- pure tests.
-
-**Scope 1B — interaction/UI**
-
-Owner: Antigravity after 1A merges.
-
-- B-02 canvas.
-- B-04 tray.
-- B-05 add.
-- B-06 drag.
-- B-07 selection/remove.
-- B-10 wrap/ribbon preview.
-- B-12 reduced motion.
-- B-13 interaction tests.
-
-**Milestone reviewer:** Claude.
-
-Review question: “Does the implementation protect the bouquet experience, or did engineering convenience make it fiddly/ugly?”
+- Domain/geometry owner: Codex — content types, deterministic placement, z-order, validation and pure tests.
+- Interaction/UI owner: Antigravity after domain contracts are stable — canvas, tray, tap, drag, selection/removal, wrap preview and reduced motion.
+- Reviewer: Claude.
+- Review question: does the implementation protect tactile composition or make it fiddly/ugly?
 
 ### Milestone 2 — First complete order
 
-**Codex:** C-01..C-11 scoring/order domain.
-
-**Antigravity:** D-01..D-06 customer/request/reaction UI and mobile interaction.
-
-Do these sequentially if they touch shared flow/state files.
-
-**Claude:** review request clarity, explainability of scoring and scope.
+- Codex: order schemas, scoring, price, reason generation, unit tests.
+- Antigravity: shop/request/reaction UI and mobile flow.
+- Claude: request clarity, explainable scoring and scope review.
 
 ### Milestone 3 — Day/content/persistence
 
-**Codex owner:** E-01..E-09 plus data validation infrastructure.
-
-**Claude/content pass:** review F-01..F-06 against content schema and tone; implementation owner can remain Codex.
-
-**Antigravity:** end-of-day mobile presentation and flow QA.
+- Codex: store, versioned persistence, migrations, inventory and data validation.
+- Claude/content review: content tone and schema consistency.
+- Antigravity: end-of-day mobile presentation and flow QA.
 
 ### Milestone 4 — Diary/share
 
-**Codex:** stable bouquet reconstruction/export data contracts.
-
-**Antigravity:** G-02/G-03 UI and G-07/G-08 real browser behavior.
-
-**Claude:** review that diary feels like a memory/collection, not transaction history.
+- Codex: stable bouquet records, reconstruction and export contracts.
+- Antigravity: diary UI and real browser share/fallback behavior.
+- Claude: review diary as memory/collection rather than transaction history.
 
 ### Milestone 5 — UI polish
 
-**Owner:** Antigravity.
-
-**Reviewer:** Claude using `prompts/UI_REVIEW_PROMPT.md` criteria.
-
-Codex handles targeted performance/refactor tasks discovered during polish.
+- Owner: Antigravity.
+- Reviewer: Claude against cozy-art-direction, mobile-game-ui, motion-language and visual-qa.
+- Codex: targeted performance/refactor fixes discovered by evidence.
 
 ### Milestone 6 — Release candidate
 
-**Codex:** tests, save recovery, performance engineering, build correctness.
+- Codex: save recovery, tests, build correctness and performance engineering.
+- Antigravity: browser/mobile E2E and visual regression.
+- Claude: PRD, scope and decision audit.
 
-**Antigravity:** browser/mobile E2E and visual regression.
+## 7. Handoff contract
 
-**Claude:** final PRD/scope/decision audit.
+Every agent ends with:
 
-## 5. Task handoff format
+~~~
+SUMMARY
 
-Every implementation agent should end with:
+CHANGED
+- path/to/file — why
 
-```text
-TASKS COMPLETED
-- B-03 ...
+TESTED
+- command or manual flow — PASS/FAIL
 
-FILES CHANGED
-- src/...
+NOT TESTED
+- check — reason
 
-BEHAVIOR
-- ...
+RISKS
+- known limitation or none
 
-VERIFICATION
-- lint: PASS
-- typecheck: PASS
-- unit: PASS (N tests)
-- e2e: PASS / not applicable
-- mobile 390x844: PASS
+FOLLOW-UP
+- next safe task or none
+~~~
 
-KNOWN RISKS
-- ...
+Review findings are P0/P1/P2, ordered by impact, and include an exact file/flow/viewport reference and smallest concrete fix.
 
-NEXT SAFE TASKS
-- B-04
-- B-05
-```
+## 8. Conflict protocol
 
-No “done” without verification evidence.
+If docs conflict with code:
 
-## 6. Conflict protocol
+1. Stop the conflicting change.
+2. Preserve user data and working behavior where possible.
+3. Record the observed conflict and options.
+4. Add/update an ADR for architectural changes.
+5. Update docs/12_DECISIONS.md only after the decision is intentionally accepted.
 
-If an agent discovers that docs conflict with existing code:
+Do not ask multiple agents to implement the same feature and pick a winner. Do not use screenshots as proof of touch behavior. Do not merge failing verification because another agent might repair it later.
 
-1. Do not silently reinterpret product behavior.
-2. Preserve user data and existing working behavior where possible.
-3. Write the conflict and recommendation.
-4. If architectural, add/propose an ADR.
-5. Update `docs/12_DECISIONS.md` only when the decision is intentionally accepted.
+## 9. Detailed playbooks and skills
 
-## 7. Review protocol
-
-A reviewer should review against three axes:
-
-### Product
-
-- Does it satisfy the PRD acceptance criteria?
-- Did scope creep appear?
-
-### UX
-
-- Is the mobile interaction clear and delightful?
-- Does it remain usable at 360px?
-
-### Engineering
-
-- Are domain rules testable/deterministic?
-- Is new complexity justified?
-- Do tests cover changed behavior?
-
-Review output should be concrete findings, ordered P0/P1/P2, with file/flow references when possible.
-
-## 8. What not to do with multiple agents
-
-- Do not ask all three to independently implement the same feature and pick a winner.
-- Do not allow “while you are here” broad refactors.
-- Do not let one agent change the product spec solely to make its code easier.
-- Do not use AI-generated screenshots as proof that touch behavior works; verify in browser.
-- Do not merge branches with failing verification simply because another agent will “fix it later.”
+- Implementation: .agents/workflows/implement-feature.md
+- Review: .agents/workflows/review-feature.md
+- Visual QA: .agents/workflows/visual-qa.md
+- Mobile QA: .agents/workflows/mobile-qa.md
+- UI fix: .agents/workflows/fix-ui-issue.md
+- Regression: .agents/workflows/regression-check.md
+- Domain skills: .agents/skills/

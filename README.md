@@ -1,112 +1,82 @@
-# TiemHoaWeb — AI Development Kit
+# TiemHoaWeb — AI Development System
 
-Bộ tài liệu này là **source of truth** để Claude Code, OpenAI Codex và Google Antigravity cùng phát triển TiemHoaWeb mà không lệch product/UX/architecture.
+TiemHoaWeb is a mobile-first cozy flower-shop web game where the player makes beautiful bouquets, serves small customer stories and gradually personalizes a flower shop.
 
-## 1. Cách dùng nhanh
+This repository is the active project workspace. It currently contains the product specification and multi-agent development foundation; application code and the runtime stack are intentionally not bootstrapped yet.
 
-Copy toàn bộ thư mục này vào root repository của dự án.
+## North star
 
-```text
-TiemHoaWeb/
-├── AGENTS.md
-├── CLAUDE.md
-├── README.md
-├── docs/
-├── prompts/
-├── templates/
-├── .agents/rules/
-└── .claude/rules/
-```
+Protect the moment when a player finishes a bouquet and wants to save or share it.
 
-Sau đó agent nào làm việc cũng phải bắt đầu bằng:
+Priority order:
 
-1. Đọc `AGENTS.md`.
-2. Đọc `docs/01_PRD_MVP.md`.
-3. Đọc tài liệu domain liên quan đến task.
-4. Viết/đọc plan trước khi sửa code lớn.
-5. Chạy lint, typecheck, tests và kiểm tra mobile viewport trước khi kết thúc.
+UI/UX & visual delight > bouquet interaction > customer emotion > progression > management depth
 
-## 2. Product sentence
+## Agent quickstart
 
-> TiemHoaWeb là một cozy mobile-first web game nơi người chơi tự tay thiết kế những bó hoa đẹp, phục vụ những câu chuyện nhỏ của khách hàng và từng bước xây dựng một tiệm hoa mang phong cách riêng.
+1. Read AGENTS.md.
+2. Read docs/AI_DEVELOPMENT_SYSTEM.md for roles, task levels, skills and workflows.
+3. Read docs/01_PRD_MVP.md and the domain documents relevant to the task.
+4. Inspect the actual repository before assuming a framework, package or source path.
+5. Use a dedicated branch/worktree and one active owner per task.
+6. End with the standard SUMMARY / CHANGED / TESTED / NOT TESTED / RISKS / FOLLOW-UP handoff.
 
-## 3. North Star
+## Current state
 
-Nếu phải hy sinh feature để bảo vệ một thứ, hãy bảo vệ:
+- Product, gameplay, UX, design, architecture, data, content, QA and collaboration docs exist under docs/.
+- Shared agent rules exist in AGENTS.md, CLAUDE.md, .agents/rules/ and .claude/rules/.
+- Project skills and workflow playbooks live under .agents/skills/ and .agents/workflows/.
+- There is currently no package.json, src/, test runner, CI workflow or repository-local MCP configuration.
+- The documented application direction is React + TypeScript with DOM/SVG/CSS bouquet composition; validate the actual stack when Milestone 0 begins.
 
-> **Khoảnh khắc tự tay làm xong một bó hoa và thấy nó đẹp đến mức muốn lưu hoặc chia sẻ.**
+## Product scope
 
-Ưu tiên sản phẩm:
+MVP validates the 60–120 second loop:
 
-`UI/UX & visual delight > bouquet interaction > customer emotion > progression > management depth`
+~~~
+customer request -> bouquet design -> wrap/ribbon/card -> delivery
+-> explainable reaction -> cash/reputation -> diary/share
+~~~
 
-## 4. MVP
+MVP includes local versioned save and installable PWA basics. It excludes multiplayer, guilds, gacha, energy/lives, large farming, employee simulation, city maps, mandatory accounts and payments.
 
-MVP tập trung vào:
+## Task routing
 
-- Customer request.
-- Bouquet Designer.
-- Wrap/ribbon/card customization.
-- Transparent satisfaction scoring.
-- Customer reaction.
-- Cash + reputation.
-- Simple day loop.
-- Flower Diary.
-- Shareable bouquet card.
-- Local save + installable PWA.
+| Level | Use for | Default path |
+|---|---|---|
+| SMALL | Copy, icon, isolated CSS/config | Implementer self-review; targeted checks; browser QA only for visible behavior |
+| MEDIUM | Component, modal, customer card, inventory slice, animation | Codex logic/tests or Antigravity UI; affected browser QA |
+| LARGE | Bouquet crafting, progression, save, economy, decorating | Claude architecture → Codex implementation/review → Antigravity browser/mobile QA |
 
-Không có trong MVP: multiplayer, guild, gacha, energy, farming lớn, employee management, city map, backend account system.
+Start with .agents/workflows/implement-feature.md; use review-feature.md, visual-qa.md, mobile-qa.md, fix-ui-issue.md or regression-check.md as the task requires.
 
-## 5. Tài liệu cần đọc theo loại task
+## Documentation map
 
-| Task | Đọc |
+| Task | Read |
 |---|---|
-| Product/feature | `docs/01_PRD_MVP.md`, `docs/02_GAME_DESIGN.md` |
-| UI/UX | `docs/03_UX_UI_SPEC.md`, `docs/04_DESIGN_SYSTEM.md` |
-| Frontend architecture | `docs/05_TECH_ARCHITECTURE.md` |
-| State/data | `docs/06_DATA_MODEL.md`, `docs/07_CONTENT_SCHEMA.md` |
-| Planning | `docs/08_IMPLEMENTATION_PLAN.md`, `docs/09_TASK_BACKLOG.md` |
-| QA | `docs/10_TESTING_QA.md` |
-| Metrics | `docs/11_ANALYTICS.md` |
-| Product decisions | `docs/12_DECISIONS.md` |
-| Dùng Claude + Codex + Antigravity cùng lúc | `docs/13_MULTI_AGENT_WORKFLOW.md` |
+| Product/feature | docs/01_PRD_MVP.md, docs/02_GAME_DESIGN.md |
+| UI/UX | docs/03_UX_UI_SPEC.md, docs/04_DESIGN_SYSTEM.md |
+| Architecture/state/content | docs/05_TECH_ARCHITECTURE.md, docs/06_DATA_MODEL.md, docs/07_CONTENT_SCHEMA.md |
+| Planning/QA | docs/08_IMPLEMENTATION_PLAN.md, docs/09_TASK_BACKLOG.md, docs/10_TESTING_QA.md |
+| Agents/tools | docs/13_MULTI_AGENT_WORKFLOW.md, docs/14_TOOLING_SECURITY.md, docs/AI_DEVELOPMENT_SYSTEM.md |
 
-## 6. Recommended stack for a new repo
+## Project skills
 
-Unless an existing repo already dictates otherwise:
+Use only the skills relevant to the task:
 
-- React + TypeScript + Vite.
-- Tailwind CSS for layout/tokens.
-- Motion for lightweight UI animation.
-- Zustand for game/session state.
-- Zustand persist/localStorage for MVP saves, with explicit schema version/migrations.
-- Vitest + Testing Library.
-- Playwright for critical mobile flows.
-- vite-plugin-pwa.
-- ESLint + Prettier.
+- cozy-art-direction
+- mobile-game-ui
+- motion-language
+- flower-shop-gameplay
+- game-economy
+- content-schema
+- asset-pipeline
+- game-state-management
+- visual-qa
+- performance-budget
 
-Do **not** add Phaser/Pixi/Three.js in MVP unless a measured interaction/performance limitation proves DOM/SVG insufficient.
+pixijs-scene is deliberately not present because the current decision is DOM/SVG first. Revisit it only with measured evidence and an accepted decision.
 
-## 7. Agent workflow
+## Verification
 
-Each non-trivial task follows:
-
-```text
-READ -> PLAN -> IMPLEMENT -> VERIFY -> VISUAL CHECK -> DOCUMENT
-```
-
-A task is not done merely because it compiles.
-
-Definition of Done is in `docs/10_TESTING_QA.md`.
-
-## 8. First prompts
-
-- Claude: `prompts/CLAUDE_FIRST_PROMPT.md`
-- Codex: `prompts/CODEX_FIRST_PROMPT.md`
-- Antigravity: `prompts/ANTIGRAVITY_FIRST_PROMPT.md`
-
-For every later feature, copy `prompts/FEATURE_TASK_TEMPLATE.md` and fill in the task.
-
-## 9. Core rule
-
-Do not let an AI agent silently reinterpret the product. If implementation pressure conflicts with the PRD, record the trade-off in `docs/12_DECISIONS.md` before changing product behavior.
+The repository has no runtime commands yet. Do not invent lint/typecheck/test results. For the current documentation foundation, use git diff --check, shell syntax checks, required-section/path checks and the worktree helper's isolated tests. Once application code exists, add the documented lint, typecheck, unit/component, E2E, mobile and performance checks.
