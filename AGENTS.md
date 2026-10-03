@@ -1,64 +1,109 @@
 # TiemHoaWeb Agent Instructions
 
-You are working on TiemHoaWeb, a mobile-first cozy flower-shop web game.
+## Project identity
+
+TiemHoaWeb is a mobile-first cozy flower-shop web game. The core fantasy is making beautiful bouquets for small customer stories and gradually making the shop feel personal.
+
+The repository currently contains the product and AI development foundation only. Inspect the repository before assuming an application stack, dependency set or source tree.
 
 ## Source of truth
 
-Read `docs/01_PRD_MVP.md` before product work. For domain-specific work, read the matching document under `docs/` listed in `README.md`.
+- Read docs/01_PRD_MVP.md before product work.
+- Read the matching domain documents listed in README.md before changing behavior or contracts.
+- Use docs/12_DECISIONS.md and docs/decisions/ for accepted decisions.
+- Use .agents/skills/ for project-specific constraints and .agents/workflows/ for repeatable procedures.
+- When sources conflict, stop, report the conflict and record an accepted change; never silently reinterpret product behavior.
 
 ## Product priorities
 
 1. UI/UX and visual delight.
-2. Bouquet creation must feel tactile, cute, quick, and screenshot-worthy.
-3. Customer requests and reactions should create emotional context.
-4. Management systems stay lightweight in MVP.
-5. Mobile web quality comes before desktop embellishment.
+2. Tactile, cute, screenshot-worthy bouquet creation.
+3. Customer requests and reactions with emotional context.
+4. Lightweight management systems.
+5. Mobile web quality before desktop embellishment.
+
+Protect the bouquet moment before adding breadth. MVP exclusions are multiplayer, guilds, gacha, energy/lives, large farming, employee simulation, city maps, mandatory accounts and payments.
 
 ## Engineering defaults
 
-- TypeScript strict mode.
-- React functional components.
-- Prefer simple DOM/SVG/CSS solutions over a game engine.
-- Keep game rules in pure domain functions, not React components.
-- Keep content/data separate from logic.
-- Avoid premature backend work.
-- Avoid new dependencies when the platform or current stack can solve the problem cleanly.
-- No `any` without a documented reason.
-- Do not hardcode user-facing content throughout components; use content definitions.
-- Save schema must have a version and migration path.
+- Use strict TypeScript and React functional components once application code exists.
+- Keep game rules in pure domain functions outside React components.
+- Keep content/data separate from logic and user-facing copy out of components.
+- Prefer simple DOM/SVG/CSS solutions; the current decision is DOM/SVG before a game engine.
+- Avoid new dependencies and backend work until repository inspection and evidence justify them.
+- Avoid any without a documented reason.
+- Version save schemas and provide migrations/recovery before changing persistent state.
+- Prefer explicit, reversible architecture over layers, event buses or abstractions without a current consumer.
+
+## Ownership and file scope
+
+One task has one active owner. Use separate branches/worktrees for parallel work.
+
+| Area | Default owner | Review/support |
+|---|---|---|
+| Product/architecture/specs | Claude | Codex technical review |
+| src/domain, src/store, persistence and tests | Codex | Claude architecture review |
+| UI features, responsive styling and browser flows | Antigravity | Codex tests, Claude scope review |
+| src/content contracts and balance data | Codex with Claude/content review | Antigravity for presentation |
+| .agents/, prompts and workflow docs | One explicitly assigned owner | All agents review their usage |
+
+Ownership is a default, not permission to edit another agent's dirty worktree. Handoff through a branch/PR or deliberate sequential transfer.
 
 ## UI invariants
 
-- Primary design viewport: 390x844 CSS px.
-- Must remain usable from 360px to 430px wide.
-- Minimum touch target: 44x44 CSS px.
-- Respect safe-area insets.
-- No hover-only interactions.
-- Avoid dense dashboard UI.
-- Shop scene should feel like the UI, not an admin panel.
-- Animations must support `prefers-reduced-motion`.
+- Primary viewport: 390x844 CSS px.
+- Support 360–430px widths; check 360px when mobile layout changes.
+- Minimum interactive target: 44x44 CSS px.
+- Respect safe-area insets and browser chrome.
+- No hover-only critical interactions.
+- Avoid dense dashboard UI; the shop scene should feel like the game.
+- Use prefers-reduced-motion and keep interaction available during expressive motion.
+
+## Workflow levels
+
+- SMALL: copy, icon, isolated CSS/config. Self-review; run targeted checks. Browser QA only when visible layout/behavior changes.
+- MEDIUM: component, modal, customer card, inventory slice or animation. Codex owns logic; Antigravity owns UI. Run unit/component/integration checks and browser QA for mobile interaction.
+- LARGE: bouquet crafting, customer state, progression, save, economy or decorating. Claude plans/guards architecture, Codex implements/tests, Antigravity performs browser/mobile QA. Update docs/specs/ADR when contracts change.
+
+Choose the level before editing. Stop and reclassify when scope grows.
+
+## Git and worktrees
+
+- Branch names: feature/<slug>, fix/<slug>, refactor/<slug>, test/<slug>, visual/<slug>, ux/<slug>, chore/<slug>.
+- Keep main protected by convention: no force push and no unverified merge.
+- Keep commits focused; use Conventional Commit style when useful.
+- Never share a dirty working tree between agents.
+- Check git status before work and report changed files/verification before handoff.
+- Use scripts/setup-worktrees.sh or standard Git worktree commands; do not overwrite existing targets.
 
 ## Required verification
 
-Before declaring a task complete:
+Before claiming a task complete, run the relevant formatter/lint, typecheck, unit/component tests, critical E2E tests and mobile visual checks. If a command is not applicable or cannot run, state NOT RUN with the reason. Also check empty/loading/error states when the feature has them and confirm no unrelated regressions.
 
-1. Run formatter/lint.
-2. Run TypeScript typecheck.
-3. Run relevant unit/component tests.
-4. Run critical E2E tests when the flow changes.
-5. Check 390x844 mobile layout.
-6. Check empty/loading/error states if applicable.
-7. Confirm no unrelated regressions.
+## Handoff format
 
-## Scope discipline
+Every handoff must contain:
 
-MVP exclusions include multiplayer, gacha, energy systems, large farming systems, employee simulation, city maps, and mandatory accounts. Do not build excluded systems without an explicit decision recorded in `docs/12_DECISIONS.md`.
+~~~
+SUMMARY
+CHANGED
+TESTED
+NOT TESTED
+RISKS
+FOLLOW-UP
+~~~
 
-## Change discipline
+Claims must be evidence-backed. Review findings use P0/P1/P2 severity with an exact file, flow or viewport reference and the smallest concrete fix.
 
-For significant architectural or product changes:
+## Documentation map
 
-- Explain the reason.
-- Update affected docs.
-- Add an ADR using `templates/ADR.md` if the decision is architectural.
-- Prefer small, reviewable changes over broad rewrites.
+| Need | Read |
+|---|---|
+| Product/MVP | docs/00_PRODUCT_VISION.md, docs/01_PRD_MVP.md |
+| Gameplay | docs/02_GAME_DESIGN.md |
+| UX/design system | docs/03_UX_UI_SPEC.md, docs/04_DESIGN_SYSTEM.md |
+| Architecture/state/content | docs/05_TECH_ARCHITECTURE.md, docs/06_DATA_MODEL.md, docs/07_CONTENT_SCHEMA.md |
+| Plan/backlog/QA | docs/08_IMPLEMENTATION_PLAN.md, docs/09_TASK_BACKLOG.md, docs/10_TESTING_QA.md |
+| Decisions/agents | docs/12_DECISIONS.md, docs/13_MULTI_AGENT_WORKFLOW.md, docs/AI_DEVELOPMENT_SYSTEM.md |
+
+The definition of done is the combination of the task acceptance criteria, docs/10_TESTING_QA.md and the applicable project skill/workflow.
