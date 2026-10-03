@@ -55,7 +55,7 @@ src/domain/bouquet/        pure TS, no React/DOM imports
   history.ts               undo wrapper { present, past } capped by rules
 src/content/
   flowers.ts               6 FlowerDefinition entries
-  wraps.ts                 3 wrap MaterialDefinition entries + 1 basket
+  wraps.ts                 3 wrap MaterialDefinition entries (the basket is style art, not a material)
   bouquetRules.ts          all tunable numbers and both StyleProfiles
   designer.ts              all Vietnamese designer copy
 src/features/bouquet/
@@ -133,10 +133,10 @@ Initial values are the implementer's to tune visually; they must live only in `b
 
 Deterministic: identical `(draft, flowerId, profile)` returns an identical stem.
 
-1. `seed = hash(flowerId + ':' + draft.nextStemSeq + ':' + style)`; PRNG from seed.
-2. Walk `profile.slots[role]` in order; choose the first slot whose distance to every existing head ≥ `MIN_HEAD_DISTANCE`. If none qualifies, choose the slot with the largest minimum distance.
-3. Apply position jitter from the PRNG, then clamp into the region.
-4. `rotationDeg = fanAngleDeg × (x − anchorX) / region.rx + rotation jitter`, clamped. For Lẵng, `anchorX` is the head's x clamped to the rim.
+1. `instanceId = flowerId + '#' + draft.nextStemSeq`; `seed = hash(instanceId + ':' + style)`; PRNG from seed.
+2. Jitter every slot of `profile.slots[role]` up front and clamp each into the region, so the measured candidate is the placed one.
+3. Choose the first candidate whose distance to every existing head ≥ `MIN_HEAD_DISTANCE`. If none qualifies, choose the candidate with the largest minimum distance.
+4. `rotationDeg = fanAngleDeg × (x − region.cx) / region.rx + rotation jitter`, clamped, for both styles.
 5. `size = 'medium'`; `scale = roleBase × sizeMultiplier`; `zIndex = band + count of stems in that band`.
 6. `nextStemSeq` increments.
 
@@ -148,7 +148,8 @@ Deterministic: identical `(draft, flowerId, profile)` returns an identical stem.
 
 ## 8. Rendering and reconstruction
 
-- `stemTransform(stem, planeWidth, planeHeight)` is pure and returns pixel translate/rotate/scale. The same draft renders proportionally at every plane size.
+- Heads are positioned with `left: x×100%` and `top: y×100%` plus `translate(-50%, -50%) rotate() scale()`, so the same draft renders proportionally at every plane size without measuring. Drag converts pointer pixels with `fromPlanePixels`/`toPlanePixels` against the plane rect captured at `pointerdown`.
+- A head's hit area is `max(44px, 16%)` of the plane width while its art is drawn about 1.6× larger, so overlapping heads stay individually tappable.
 - `StemLayer` draws each stem as a soft quadratic path from the head to its anchor (Bó: the binding point; Lẵng: the rim point below the head). The front wrap/basket layer covers the lower stems.
 - Layer order: wrap/basket back → stem paths → heads (by `zIndex`) → wrap/basket front (`pointer-events: none`). Region `yMax` keeps heads above the front layer.
 - Reconstruction contract: `JSON.parse(JSON.stringify(draft))` renders identically to `draft`. This is the M1 exit criterion; storage itself is Milestone 3.
@@ -172,7 +173,8 @@ Deterministic: identical `(draft, flowerId, profile)` returns an identical stem.
 - **Tap tray card:** add via `composeStem`; head pops in (scale .8 → 1, `--motion-micro`). At 9 stems cards are disabled and the row says "Bó đã đủ 9 cành — chọn một bông để xoá nếu muốn đổi."
 - **Drag head:** pointer capture; movement under `DRAG_THRESHOLD_PX` counts as a tap. Lift feedback (shadow, 1.05 scale). Transform and that stem's path update via refs only; `moveStem` dispatches on `pointerup`. `pointercancel` restores the committed position.
 - **Tap head:** select (visible ring, not color-only) and swap the context row to StemActions: ⟲ ⟳, − +, Lên trước, Ra sau, Xoá. Tap empty plane to deselect.
-- **Hoàn tác:** undo up to 30 steps. **Làm lại:** clear all stems (undoable, so no confirm dialog).
+- **Hoàn tác:** undo up to 30 steps. **Làm lại:** clear all stems (undoable, so no confirm dialog). Remove, clear and undo end the selection, so a restored stem never returns already selected.
+- A touch drag fires no trailing click; the drag-click guard resets on every `pointerdown` so the next tap still selects.
 - **Lẵng** hides the wrap picker (single basket). A new draft starts as Bó with the kem wrap; `wrapId` is kept across style switches so returning to Bó restores the chosen wrap.
 - **Touch:** plane `touch-action: none`; tray `touch-action: pan-x`; `user-select: none` and `-webkit-touch-callout: none` on heads; no long-press or pinch required.
 - **Accessibility:** each head is a button labelled "Tulip hồng, cành 3"; arrow keys move the selected stem by 0.02; every target ≥ 44px; focus visible.
