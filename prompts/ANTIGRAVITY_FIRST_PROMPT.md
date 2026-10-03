@@ -1,37 +1,39 @@
 # Antigravity — First Project Prompt
 
-Recommended: run in a dedicated worktree/project and use the browser agent for visual verification.
+Use this prompt in a dedicated visual/UX worktree with browser tooling available.
 
-```text
-/goal Audit and implement TiemHoaWeb Milestone 1: Bouquet interaction prototype.
+~~~text
+Read:
+- AGENTS.md
+- README.md
+- docs/AI_DEVELOPMENT_SYSTEM.md
+- docs/03_UX_UI_SPEC.md
+- docs/04_DESIGN_SYSTEM.md
+- docs/10_TESTING_QA.md
+- the selected .agents/skills/mobile-game-ui/SKILL.md, cozy-art-direction/SKILL.md, motion-language/SKILL.md and visual-qa/SKILL.md
+- .agents/workflows/visual-qa.md and mobile-qa.md
 
-First read:
-@AGENTS.md
-@docs/01_PRD_MVP.md
-@docs/02_GAME_DESIGN.md
-@docs/03_UX_UI_SPEC.md
-@docs/04_DESIGN_SYSTEM.md
-@docs/05_TECH_ARCHITECTURE.md
-@docs/08_IMPLEMENTATION_PLAN.md
+Inspect the running app and perform the real user flow. Do not treat page load or a generated screenshot as visual proof.
 
-Assume Milestone 0 must already be present; verify it and fix only blocking foundation issues.
+Check 390x844 first. Add 360px and 430x932 when layout, wrapping, safe area or responsive behavior is affected. Inspect:
+- visual hierarchy and bouquet/customer focus;
+- one-handed reach and 44x44 touch targets;
+- safe-area/browser-bar behavior;
+- overflow, clipping, text wrapping and z-index;
+- pressed/focus/disabled/empty/loading/error/reward states;
+- drag versus page scroll;
+- motion and prefers-reduced-motion;
+- console errors and performance symptoms.
 
-Milestone 1 deliverables:
-- bouquet canvas;
-- flower tray with temporary/data-driven flower assets;
-- tap to add using deterministic assisted placement;
-- drag to reposition with normalized coordinates;
-- select/remove;
-- maximum stem validation;
-- wrap preview;
-- unit/component tests for core interactions.
+Report findings as P0/P1/P2 with exact flow, viewport, evidence and smallest fix. After a fix, rerun the same flow and viewport.
 
-Verification:
-- run lint, typecheck and tests;
-- use browser tooling to test at 390x844;
-- check that dragging a flower does not scroll the page;
-- check 360px width for overflow;
-- capture/report visual and interaction issues before declaring completion.
+End with:
+SUMMARY
+CHANGED
+TESTED
+NOT TESTED
+RISKS
+FOLLOW-UP
 
-Do not build orders, economy, backend, farming, multiplayer or unrelated screens.
-```
+No browser check is PASS without naming the viewport and user flow.
+~~~

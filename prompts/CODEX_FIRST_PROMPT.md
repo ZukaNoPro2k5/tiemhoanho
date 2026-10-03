@@ -1,24 +1,39 @@
 # Codex — First Project Prompt
 
-```text
-Read AGENTS.md, README.md, docs/01_PRD_MVP.md, docs/03_UX_UI_SPEC.md, docs/05_TECH_ARCHITECTURE.md, docs/08_IMPLEMENTATION_PLAN.md and docs/09_TASK_BACKLOG.md.
+Use this prompt in a dedicated branch/worktree for implementation, refactor, test or review work.
 
-Inspect the current repository.
+~~~text
+Read:
+- AGENTS.md
+- README.md
+- docs/AI_DEVELOPMENT_SYSTEM.md
+- the task-specific product/domain/UI docs
+- the selected .agents/skills/*/SKILL.md
+- the relevant .agents/workflows/implement-feature.md, review-feature.md or regression-check.md
 
-Implement Milestone 0 only. If the repository already satisfies an item, verify it instead of replacing it.
+Inspect the repository and current diff before editing. Confirm the task level, owner, scope and non-goals. Reuse existing patterns. Keep domain rules pure and deterministic, content data-driven, saves versioned and UI state separate from gameplay/persistence state.
 
-Definition of done:
-- project dev/build flow works;
-- strict TypeScript is configured;
-- lint, formatting, unit test and E2E scaffolding exists;
-- base design tokens are wired;
-- PWA scaffold exists but no unnecessary service-worker complexity;
-- a 390x844 app shell renders without horizontal overflow;
-- scripts are documented in README if needed.
+Implement only the requested slice. Do not install packages, bootstrap a framework, add a game engine, add a backend or rewrite architecture unless the task explicitly authorizes it and the repository evidence supports it.
 
-Do not implement gameplay yet.
-Do not add a backend.
-Do not add a game engine.
+For implementation:
+- run the relevant formatter/lint, typecheck and tests;
+- add or update behavior tests for changed domain/state rules;
+- ask Antigravity/browser QA for changed mobile UI or flows;
+- use PASS, FAIL or NOT RUN with the exact command/manual flow.
 
-Before editing, give a short plan. After editing, run the verification commands and report exact results plus changed files.
-```
+For review:
+- inspect the full diff;
+- check product, UX, engineering, state/economy/content and performance contracts;
+- report P0/P1/P2 findings with exact evidence and smallest fixes;
+- do not redesign without a reproducible finding.
+
+End with:
+SUMMARY
+CHANGED
+TESTED
+NOT TESTED
+RISKS
+FOLLOW-UP
+
+Do not claim tested from inspection or from a build alone.
+~~~

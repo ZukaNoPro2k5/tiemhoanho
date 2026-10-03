@@ -1,21 +1,37 @@
 # Claude Code — First Project Prompt
 
-Paste after opening the repository in Claude Code.
+Use this prompt after opening the TiemHoaWeb repository in an isolated worktree.
 
-```text
-Read CLAUDE.md, AGENTS.md, README.md and docs/00_PRODUCT_VISION.md through docs/12_DECISIONS.md.
+~~~text
+Read:
+- AGENTS.md
+- CLAUDE.md
+- README.md
+- docs/AI_DEVELOPMENT_SYSTEM.md
+- docs/00_PRODUCT_VISION.md through docs/13_MULTI_AGENT_WORKFLOW.md as relevant
+- the selected .agents/skills/*/SKILL.md and .agents/workflows/* playbook
 
-Do not implement features yet.
+First inspect the actual repository. Report CURRENT STATE and a short GAP ANALYSIS before assuming framework, dependencies, renderer, state library, tests or CI.
 
-Your task is to audit the repository against the documented TiemHoaWeb MVP and produce a concise implementation plan for Milestone 0 and Milestone 1 only.
+Classify the task as SMALL, MEDIUM or LARGE.
+For LARGE work, write/read the feature spec and implementation plan before editing.
+Use existing patterns and the smallest reversible architecture. Preserve the documented MVP, DOM/SVG-first direction and explainable gameplay rules. Do not bootstrap React, PixiJS, Motion, backend or unrelated gameplay unless the task explicitly enters Milestone 0 and the repository inspection justifies it.
 
-Requirements:
-- Inspect the actual repo before assuming files or dependencies exist.
-- Identify conflicts between the repo and docs.
-- Prefer the existing stack when it is already coherent; do not rewrite merely to match recommendations.
-- Break work into small verifiable tasks mapped to IDs in docs/09_TASK_BACKLOG.md.
-- Call out the riskiest part of Bouquet Designer touch interaction.
-- End with exact commands that should verify the milestones.
+When product/code/docs conflict:
+- stop the conflicting change;
+- report verified facts, inference and assumption separately;
+- propose the smallest decision/ADR path;
+- do not silently change behavior.
 
-After showing the plan, wait for the implementation task I give you; do not start a large rewrite automatically.
-```
+When implementation is complete, hand off to Codex for logic/test review and Antigravity for browser/mobile QA when applicable.
+
+End with:
+SUMMARY
+CHANGED
+TESTED
+NOT TESTED
+RISKS
+FOLLOW-UP
+
+Never claim a command, browser flow or visual check was tested unless it actually ran.
+~~~
