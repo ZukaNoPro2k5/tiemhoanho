@@ -1,0 +1,296 @@
+.designer {
+  width: 100%;
+  max-width: var(--shop-width);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin-inline: auto;
+  padding: calc(var(--space-3) + var(--safe-top))
+    calc(var(--space-4) + var(--safe-right))
+    calc(var(--space-3) + var(--safe-bottom))
+    calc(var(--space-4) + var(--safe-left));
+  background: var(--cream-50);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.designer-bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-2);
+}
+.designer-bar h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.25rem;
+  text-align: center;
+}
+.designer-bar h1:focus {
+  outline: none;
+}
+.ghost-button {
+  border: 0;
+  background: none;
+  color: var(--ink-900);
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-small);
+}
+.ghost-button:disabled {
+  color: var(--ink-600);
+  opacity: 0.5;
+}
+.style-switch {
+  display: flex;
+  padding: 2px;
+  border-radius: var(--radius-button);
+  background: var(--cream-100);
+}
+.style-switch button,
+.wrap-swatch,
+.action-chip {
+  border: 1px solid transparent;
+  background: none;
+  color: var(--ink-900);
+  border-radius: var(--radius-small);
+  padding-inline: var(--space-3);
+  font-size: var(--text-small);
+}
+.style-switch button[aria-pressed='true'],
+.wrap-swatch[aria-pressed='true'] {
+  background: var(--paper);
+  border-color: var(--sage-700);
+  font-weight: 600;
+}
+
+.bouquet-plane {
+  position: relative;
+  width: min(100%, calc(52dvh * 0.8));
+  aspect-ratio: 4 / 5;
+  margin-inline: auto;
+  flex-shrink: 0;
+  background: var(--paper);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  touch-action: none;
+}
+.plane-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.plane-hint {
+  position: absolute;
+  inset: 38% 12% auto;
+  margin: 0;
+  text-align: center;
+  color: var(--ink-600);
+  font-size: var(--text-small);
+  pointer-events: none;
+}
+.stem-head {
+  /* Hit area is smaller than the art so overlapping heads stay tappable. */
+  position: absolute;
+  width: max(var(--touch-target), 16%);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  animation: stem-pop var(--motion-micro) var(--ease-soft);
+}
+.stem-head svg {
+  position: absolute;
+  inset: -32%;
+  width: 164%;
+  height: 164%;
+  display: block;
+  pointer-events: none;
+}
+.stem-head[data-dragging] {
+  cursor: grabbing;
+  scale: 1.05;
+  filter: drop-shadow(var(--shadow-float));
+}
+.stem-head[aria-pressed='true']::after {
+  content: '';
+  position: absolute;
+  inset: -24%;
+  border: 2px dashed var(--sage-700);
+  border-radius: 50%;
+}
+@keyframes stem-pop {
+  from {
+    opacity: 0;
+    scale: 0.8;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.designer-notice {
+  min-height: 1.5em;
+  margin: 0;
+  text-align: center;
+  font-size: var(--text-small);
+  color: var(--sage-700);
+}
+.context-row {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+  flex-wrap: wrap;
+  min-height: var(--touch-target);
+}
+.swatch-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: var(--space-1);
+  border-radius: 50%;
+  border: 1px solid var(--border-warm);
+  vertical-align: -2px;
+}
+[data-wrap='wrap-cream'] .swatch-dot {
+  background: var(--cream-100);
+}
+[data-wrap='wrap-blush'] .swatch-dot {
+  background: var(--rose-300);
+}
+[data-wrap='wrap-kraft'] .swatch-dot {
+  background: var(--kraft-300);
+}
+.action-chip {
+  background: var(--paper);
+  border-color: var(--border-warm);
+}
+.action-chip:disabled {
+  opacity: 0.45;
+}
+
+.flower-tray {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0 calc(-1 * var(--space-4));
+  padding: var(--space-1) var(--space-4);
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  touch-action: pan-x;
+}
+.tray-card {
+  position: relative;
+  width: 80px;
+  padding: var(--space-2) var(--space-1);
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--radius-small);
+  background: var(--paper);
+  color: var(--ink-900);
+  scroll-snap-align: start;
+}
+.tray-card svg {
+  width: 44px;
+  height: 44px;
+}
+.tray-card:disabled {
+  opacity: 0.45;
+}
+.tray-name {
+  font-size: 0.75rem;
+  line-height: 1.3;
+}
+.tray-count {
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-1);
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-small);
+  background: var(--sage-700);
+  color: var(--paper);
+  font-size: 0.7rem;
+}
+.designer-footer {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.stem-count {
+  font-size: var(--text-small);
+  color: var(--ink-600);
+}
+
+.art-red {
+  fill: var(--flower-red);
+}
+.art-red-deep {
+  fill: var(--flower-red-deep);
+}
+.art-pink {
+  fill: var(--rose-300);
+}
+.art-pink-deep {
+  fill: none;
+  stroke: var(--rose-500);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+.art-yellow {
+  fill: var(--flower-yellow);
+}
+.art-seed {
+  fill: var(--flower-seed);
+}
+.art-white {
+  fill: var(--paper);
+  stroke: var(--border-warm);
+  stroke-width: 1.5;
+}
+.art-leaf {
+  fill: var(--sage-500);
+}
+.art-stem {
+  fill: none;
+  stroke: var(--sage-700);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+.art-wrap-cream {
+  fill: var(--cream-100);
+}
+.art-wrap-blush {
+  fill: var(--rose-300);
+}
+.art-wrap-kraft {
+  fill: var(--kraft-300);
+}
+.art-tie {
+  fill: var(--sage-700);
+}
+.art-basket {
+  fill: var(--basket-500);
+}
+.art-basket-handle {
+  stroke: var(--basket-700);
+  stroke-width: 3;
+}
+.art-basket-weave {
+  fill: none;
+  stroke: var(--basket-700);
+  stroke-width: 1;
+}
