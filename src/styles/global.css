@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import './tokens.css';
+@import './designer.css';
 
 @theme inline {
   --color-*: initial;
@@ -177,10 +178,16 @@ a:focus-visible {
   border-radius: 50%;
   flex-shrink: 0;
 }
-.preparation-note {
-  font-size: var(--text-small);
-  color: var(--ink-600);
-  margin: 0;
+.primary-action {
+  display: block;
+  margin: var(--space-3) auto 0;
+  padding: var(--space-2) var(--space-6);
+  border: 0;
+  border-radius: var(--radius-button);
+  background: var(--sage-700);
+  color: var(--paper);
+  font-weight: 600;
+  box-shadow: var(--shadow-soft);
 }
 .shop-footer {
   color: var(--ink-600);

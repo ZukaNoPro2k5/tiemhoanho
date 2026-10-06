@@ -82,7 +82,7 @@ const bouquetProfile: StyleProfile = {
 const basketProfile: StyleProfile = {
   style: 'basket',
   anchor: { kind: 'rim', y: 0.62, x0: 0.22, x1: 0.78 },
-  region: { cx: 0.5, cy: 0.44, rx: 0.46, ry: 0.22, yMax: 0.6 },
+  region: { cx: 0.5, cy: 0.44, rx: 0.42, ry: 0.22, yMax: 0.6 },
   fanAngleDeg: 40,
   slots: {
     focal: [
@@ -119,14 +119,14 @@ const basketProfile: StyleProfile = {
       { x: 0.76, y: 0.54 },
     ],
     foliage: [
-      { x: 0.1, y: 0.52 },
-      { x: 0.9, y: 0.52 },
+      { x: 0.14, y: 0.52 },
+      { x: 0.86, y: 0.52 },
       { x: 0.16, y: 0.4 },
       { x: 0.84, y: 0.4 },
       { x: 0.26, y: 0.58 },
       { x: 0.74, y: 0.58 },
-      { x: 0.06, y: 0.46 },
-      { x: 0.94, y: 0.46 },
+      { x: 0.12, y: 0.46 },
+      { x: 0.88, y: 0.46 },
       { x: 0.5, y: 0.58 },
     ],
   },

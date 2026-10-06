@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { App } from './App';
 
@@ -12,14 +12,25 @@ describe('application shell', () => {
     expect(screen.getByRole('status')).toHaveTextContent(
       'Tiệm đang được chuẩn bị',
     );
-    expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(1);
   });
 
-  it('gives the non-interactive storefront a single accessible description', () => {
+  it('gives the storefront a single accessible description', () => {
     render(<App />);
     expect(
       screen.getByRole('img', { name: /Mặt tiền tiệm hoa/ }),
     ).toBeInTheDocument();
     expect(screen.getAllByRole('img')).toHaveLength(1);
+  });
+
+  it('enters the designer and returns to the shop', () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: 'Vào xếp hoa' }));
+    const heading = screen.getByRole('heading', { level: 1, name: 'Xếp hoa' });
+    expect(heading).toHaveFocus();
+    fireEvent.click(screen.getByRole('button', { name: /Quay lại/ }));
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Tiệm Hoa Nhỏ' }),
+    ).toBeVisible();
   });
 });

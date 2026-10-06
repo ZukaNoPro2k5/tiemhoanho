@@ -128,20 +128,20 @@ export function ShopScene() {
       <path d="M177 299H287" className="scene-line" />
       <rect
         x="63"
-        y="180"
+        y="160"
         width="88"
         height="28"
         rx="2"
         className="scene-paper"
-        transform="rotate(-4 107 194)"
+        transform="rotate(-4 107 174)"
       />
       <text
         x="107"
-        y="197"
+        y="177"
         fontSize="7.7"
         textAnchor="middle"
         className="scene-lettering"
-        transform="rotate(-4 107 194)"
+        transform="rotate(-4 107 174)"
       >
         {shellCopy.windowNote}
       </text>
