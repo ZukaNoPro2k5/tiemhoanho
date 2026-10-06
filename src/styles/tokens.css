@@ -12,6 +12,14 @@
   --butter-300: #f0d98a;
   --paper: #fffdf8;
   --danger: #bd5f62;
+  /* Temporary Milestone 1 flower/container art palette. */
+  --flower-red: #c9575c;
+  --flower-red-deep: #a8434a;
+  --flower-yellow: #f2c84b;
+  --flower-seed: #7a5a3a;
+  --kraft-300: #d8b48c;
+  --basket-500: #b98a5c;
+  --basket-700: #8c6441;
   --border-warm: rgb(68 58 54 / 14%);
   --shadow-soft: 0 6px 20px rgb(68 58 54 / 10%);
   --shadow-float: 0 10px 30px rgb(68 58 54 / 14%);
