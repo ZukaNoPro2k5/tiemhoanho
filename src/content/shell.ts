@@ -10,7 +10,5 @@ export const shellCopy = {
   introduction:
     'Nắng đã ghé bên cửa sổ. Một tiệm hoa nhỏ đang chờ những câu chuyện của bạn.',
   status: 'Tiệm đang được chuẩn bị',
-  preparation:
-    'Những bó hoa đầu tiên sẽ sớm có mặt. Hẹn bạn một ngày thật dịu dàng.',
   footer: 'Chậm một chút, để ngắm hoa.',
 } as const;
