@@ -34,9 +34,9 @@ Deliverables:
 - Flower tray.
 - Tap-to-add with deterministic assisted placement.
 - Drag to reposition.
-- Select/remove.
+- Select, rotate, resize, layer reorder and remove; undo.
 - Max stem count.
-- Wrap preview.
+- Wrap preview (3 wraps) and Bó/Lẵng arrangement styles.
 
 Exit criteria:
 
@@ -44,6 +44,8 @@ Exit criteria:
 - No page-scroll conflict inside canvas.
 - Bouquet reconstructs deterministically from stored normalized layout.
 - Drag remains responsive on target mobile hardware/browser.
+
+Exit evidence: `docs/m1-bouquet-verification.md`.
 
 ## Milestone 2 — First complete order
 

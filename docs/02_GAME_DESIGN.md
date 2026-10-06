@@ -28,6 +28,13 @@ The request shown to the user must be enough to infer scoring constraints.
 - A foliage item counts as a stem for UI but may have a lower cost.
 - Duplicate flower types are allowed.
 
+### Arrangement styles
+
+- **Bó** (hand-tied bouquet): stems meet at a binding point, tall fan, wrap.
+- **Lẵng** (basket): stems stand in a basket rim, wide low dome.
+
+The style is player-chosen; switching re-composes the stems.
+
 ### Composition representation
 
 Each placed stem stores normalized values independent of viewport:
@@ -36,6 +43,7 @@ Each placed stem stores normalized values independent of viewport:
 - `y`: 0..1
 - `rotationDeg`
 - `scale`
+- `size`: small / medium / large
 - `zIndex`
 
 The renderer converts normalized positions into the bouquet viewport.
@@ -52,6 +60,18 @@ When the player adds a flower, place it using a deterministic composition helper
 - Use a deterministic seed so a saved bouquet reconstructs consistently.
 
 The player can then drag to adjust.
+
+### Player adjustments
+
+After placement the composition belongs to the player. A selected stem can be:
+
+- dragged to a new position;
+- rotated in 15° steps, up to ±60°;
+- set to one of three sizes: small, medium, large;
+- moved one layer forward or back;
+- removed.
+
+Undo reverses the last change, including a style switch.
 
 ## 4. Flower metadata
 

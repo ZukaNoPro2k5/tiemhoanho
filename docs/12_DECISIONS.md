@@ -42,6 +42,20 @@ Record meaningful changes here so different AI agents do not repeatedly reopen s
 
 **Reason:** Follow the explicitly assigned foundation scope and minimize unused dependencies. Details and verification are in [ADR-002](decisions/002-m0-application-foundation.md).
 
+## D-007 — Pre-made display shelf (Kệ hoa làm sẵn)
+
+**Date:** 2026-10-03
+
+**Status:** proposed
+
+**Decision:** Besides custom orders, let the player compose bouquets and baskets during a preparation phase and display them on a shelf; some customers browse the shelf and choose one that fits their mood instead of placing a custom order.
+
+**Reason:** Rewards free composition without recipe pressure, differentiates from viral recipe-accuracy shop games (Tiệm Mì Cay, Tiệm Trà Nhỏ) and gives the preparation phase creative work instead of stock-taking.
+
+**Alternatives considered:** Custom orders only (current PRD); timed rush service (rejected: players report exhaustion).
+
+**Consequences:** Needs shelf capacity, customer browsing/matching rules and a PRD update. Not before the Milestone 1 prototype proves the designer feels good. Milestone 1 only adds `arrangementStyle` to the draft.
+
 ## New decision template
 
 ### D-XXX — Title
