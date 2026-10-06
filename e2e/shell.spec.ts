@@ -39,7 +39,7 @@ for (const viewport of viewports) {
       'Tiệm đang được chuẩn bị',
     );
     await expect(page.locator('html')).toHaveAttribute('lang', 'vi');
-    await expect(page.getByRole('button')).toHaveCount(0);
+    await expect(page.getByRole('button')).toHaveText(['Vào xếp hoa']);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= window.innerWidth,
