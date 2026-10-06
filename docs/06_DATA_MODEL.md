@@ -84,11 +84,14 @@ interface PlacedStem {
   y: number;
   rotationDeg: number;
   scale: number;
+  size: 'small' | 'medium' | 'large';
   zIndex: number;
   freshnessAtUse: 0 | 1 | 2 | 3;
 }
 
 interface BouquetDraft {
+  arrangementStyle: 'bouquet' | 'basket';
+  nextStemSeq: number;
   stems: PlacedStem[];
   wrapId?: Id;
   ribbonId?: Id;
@@ -140,6 +143,8 @@ interface GameState {
   tutorialCompleted: boolean;
 }
 ```
+
+Milestone 1 implements these contracts in `src/domain/catalog.ts` and `src/domain/bouquet/types.ts`. `PlacedStem.x/y` is the flower-head position on a 4:5 plane; stems are drawn from the head to the style anchor and are not stored. `instanceId` is `flowerId#seq`. `freshnessAtUse` is always 3 until inventory exists.
 
 ## Derived data
 
