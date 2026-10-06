@@ -28,6 +28,8 @@ A-01–A-06 implemented in Milestone 0. A-04 uses a single-screen shell; routing
 - B-11 Add bouquet price calculation.
 - B-12 Add reduced-motion behavior.
 - B-13 Add interaction tests.
+- B-14 Add Bó/Lẵng arrangement styles.
+- B-15 Add stem resize and layer reorder.
 
 ## EPIC C — Orders & Scoring
 
