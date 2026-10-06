@@ -121,6 +121,9 @@
   scale: 1.05;
   filter: drop-shadow(var(--shadow-float));
 }
+.stem-head[aria-pressed='true'] {
+  z-index: 600 !important;
+}
 .stem-head[aria-pressed='true']::after {
   content: '';
   position: absolute;
@@ -242,7 +245,10 @@
   fill: var(--flower-red-deep);
 }
 .art-pink {
-  fill: var(--rose-300);
+  fill: var(--flower-pink);
+  stroke: var(--flower-pink-outline);
+  stroke-width: 2;
+  stroke-linejoin: round;
 }
 .art-pink-deep {
   fill: none;
